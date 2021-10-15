@@ -1,27 +1,11 @@
 # -*- coding: utf-8 -*-
-"""
-    Main source
 
-"""
 import sys
 import re
 sys.path.append(".")
 from Player import Player
 from Ship import Ship
-
-
-
-def printMessage( *message,  delimiter = None, matrix = None):
-    if delimiter != None:
-        print(delimiter)
-    for mes in message:
-        if matrix != None: # si es una matriz que la muestre con forma
-            for mat in mes:
-                print(mat)
-        else:               # si no es matriz que muestre los argumentos
-            print(mes)
-    if delimiter != None:
-        print(delimiter)
+from PrintFunctions import printMessage
 
 
 ###################### Validación del nombre ######################
@@ -66,42 +50,30 @@ printMessage("= Reglas","= Puedes agregar los siguientes barcos:"
              ,delimiter = "="*120
              )
 
+#initializing object HumanPlayer and ship
 HumanPlayer = Player(player_name,[],sizeBoard) 
-
+ship_to_check = Ship()
+count_ships = 0
 # filling matriz with 0 values in each position
 for i in range(sizeBoard):
-   HumanPlayer.coordinates.append([0 for j in range(sizeBoard)])
-
+   HumanPlayer.coordinates.append([0 for j in range(sizeBoard)]) # Creating our board
 
 printMessage("Cada valor de 0 es una posicion a la que puedes asignar una parte de cada barco")
 printMessage("Tu tablero:")
+printMessage(", ".join([chr(i) for i in range(65,65+sizeBoard)])) #Printing our board
 printMessage(HumanPlayer.coordinates,delimiter=None,matrix=1)
 
-
-
-while Ship_to_be_selected == "":    
-    Ship_to_be_selected = input("Cual Barco te gustaría utilizar:")
-    if Ship_to_be_selected == "a":
-        printMessage("las coodenadas tienen que estar separadas con comas")
-        ship_coordinates = input("Cuales coordenadas eliges: ")
-        #HumanPlayer.set_ship_coodinates(Ship_to_be_selected, ship_coordinates.split())
-        HumanPlayer.input_coordinates(Ship_to_be_selected)
-    elif Ship_to_be_selected == "b":
-        pass
-    elif Ship_to_be_selected == "c":
-        pass
-    else:
-        pass
-
-
-
- 
- 
-#p1 = Player("David",[[1,2,3,4,5],[6,7,8,9,0]], 3) 
-
-#print()
-
-
+while count_ships < 3:    
+    Ship_to_be_selected = str(input("Cual Barco te gustaría utilizar:")).lower()
+    if Ship_to_be_selected in [ "a","b","c" ]:
+        count_ships = count_ships + 1
+        if ship_to_check.is_full(Ship_to_be_selected, HumanPlayer): #Checking if all positions had already been populated
+            printMessage("las posiciones para ese barco ya fueron ingredadas, elige otro barco")
+        else:
+            while not ship_to_check.is_full(Ship_to_be_selected, HumanPlayer):
+                HumanPlayer.input_coordinates(Ship_to_be_selected, sizeBoard)
+            
+    
 
 
 
