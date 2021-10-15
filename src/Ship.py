@@ -18,33 +18,36 @@ class Ship:
         self.small_ship = {}
      
     def add_coodenates(self, ship, ship_coordinates):
+        #agregan coordenadas alos diccionarios
+        def add_process(self, ship, ship_coordinates,boatSize):
+            if boatSize.get(ship_coordinates[0].upper(),0) == 0: # no existe
+                boatSize[ship_coordinates[0].upper()] = ship_coordinates[1]
+            else:
+                list_new = list(boatSize.get(ship_coordinates[0].upper()))
+                list_new.append(ship_coordinates[1])
+                boatSize[ship_coordinates[0].upper()] = list_new
+        #validamos que llave se uso para agregar coordenadas al diccionario
         if ship == self.big_ship_key:
-            if self.big_ship.get(ship_coordinates[0].upper(),0) == 0: # no existe
-                self.big_ship[ship_coordinates[0].upper()] = ship_coordinates[1]
-            else:
-                list_new = list(self.big_ship.get(ship_coordinates[0].upper()))
-                list_new.append(ship_coordinates[1])
-                self.big_ship[ship_coordinates[0].upper()] = list_new
+            add_process(self, ship, ship_coordinates,self.big_ship)
         elif ship == self.medium_ship_key:
-            if self.medium_ship.get(ship_coordinates[0].upper(),0) == 0: # no existe
-                self.medium_ship[ship_coordinates[0].upper()] = ship_coordinates[1]
-            else:
-                list_new = list(self.medium_ship.get(ship_coordinates[0].upper()))
-                list_new.append(ship_coordinates[1])
-                self.medium_ship[ship_coordinates[0].upper()] = list_new
+            add_process(self, ship, ship_coordinates,self.medium_ship)
         else:
-            if self.small_ship.get(ship_coordinates[0].upper(),0) == 0: # no existe
-                self.small_ship[ship_coordinates[0].upper()] = ship_coordinates[1]
-            else:
-                list_new = list(self.small_ship.get(ship_coordinates[0].upper()))
-                list_new.append(ship_coordinates[1])
-                self.small_ship[ship_coordinates[0].upper()] = list_new
-    
+            add_process(self, ship, ship_coordinates,self.small_ship)
+        
     
     
     def is_full(self, ship, HumanPlayer):
+        '''Check if ship is already full or there is a field that needs to be populated'''
         count = 0
-        for key, value in HumanPlayer.ship.big_ship.items():
+        ship_items = {}
+        if ship == self.big_ship_key:
+            ship_items = HumanPlayer.ship.big_ship.items()
+        elif ship == self.medium_ship_key:
+            ship_items = HumanPlayer.ship.medium_ship.items()
+        elif ship == self.small_ship_key:
+            ship_items = HumanPlayer.ship.small_ship.items()
+            
+        for key, value in ship_items:
             if isinstance(value, list):
                 count += len(value)
             else:
