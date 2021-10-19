@@ -36,7 +36,6 @@ class Player:
         value_return = False
         for key, value in ship_dictionary.items():
             if key == ship_coordinates[0]:
-                
                 if isinstance(value, list):
                     if ship_coordinates[1] in value:
                         value_return = True
@@ -65,7 +64,7 @@ class Player:
         else:
             if bool(re.search(rf"^[0-1][0-{sizeBoard - 10}],[0-1][0-{sizeBoard - 10}]$", ship_coordinates)):
                 pass
-    
+              
     def automatic_generation(self, sizeBoard):
         vertial_or_horizontal = randint(0, 1) #0 -  horizontal, 1 - vertical
         column_to_start = randint(0, sizeBoard-1)
@@ -129,21 +128,20 @@ class Player:
             if count_empty_space == 2:
                 break
                     
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-    
-    
-    
-    
-    
-        
+
+HumanPlayer= {"A":[1,2,3]}
+shoot=["A",1]
+def hits(self,HumanPlayer,shoot):
+    for key, value in HumanPlayer:
+        if key == shoot[0]:
+            if isinstance(value, list):
+                if shoot[1] in value:
+                    value_return = True
+                    HumanPlayer
+                    print("t")
+                    break
+                else:
+                    if ship_coordinates[1] == value:
+                        value_return = True
+                        break
+

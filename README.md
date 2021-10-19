@@ -1,2 +1,3 @@
 # battle_ship
-proyecto de juego, battle ship. Francisco Solano y David Venegas 
+Este es un juego de estrategia y adivinanza. Usaremos un formato de diccionarios, listas, tuplas y condicionantes dentro de if statements al igual que while loops para lograr crear un juego en donde, dos jugadores, estratégicamente posicionen 5 barcos cada uno en un plano de 10x10. Para jugar la ofensiva se deberá adivinar la posición de los barcos enemigos con misiles que se lanzaran, usando inputs para las coordenadas elegidas mediante inputs. Como display usaremos una serie de prints para demostrar el tablero, los barcos, y los barcos hundidos.
+proyecto de juego, battle ship, Francisco Solano y David Venegas

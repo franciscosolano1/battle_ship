@@ -89,53 +89,25 @@ printMessage(HumanPlayer.coordinates,delimiter=None,matrix=1)
 #Populating AI ship coordinates
 AiPlayer.automatic_generation(sizeBoard)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+bs={}
+ms={}
+ss={}
+while True:
+    shoot=input("Elige donde quieres dirigir tu misil:  ")
+    if bool(re.search(rf"^[A-Za-z],[0-{sizeBoard}]$", shoot)):
+        print("entre")
+    if HumanPlayer.check_positions_taken(shoot.split(","),HumanPlayer.ship.big_ship):
+        print("Big ship hit!!")
+        (shoot.split(","),)
+        HumanPlayer.ship.big_ship.popitem()
+        if HumanPlayer.ship.big_ship=={}:
+            print("Big Ship sunk!")
+        print(bs)
+    elif HumanPlayer.check_positions_taken(shoot.split(","),HumanPlayer.ship.medium_ship):
+        print("Medium Ship hit!!")
+    elif HumanPlayer.check_positions_taken(shoot.split(","),HumanPlayer.ship.small_ship):
+        print("Small Ship hit!!")
+    else:
+        print("Miss ,Try again.")
 
 
