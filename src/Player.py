@@ -67,12 +67,13 @@ class Player:
                 pass
     
     def automatic_generation(self, sizeBoard):
-        vertial_or_horizontal = randint(0, 1) #0 -  horizontal, 1 - vertical
+        vertial_or_horizontal = 0 # randint(0, 1) #0 -  VERTICAL, 1 - HORIZONTAL
         column_to_start = randint(0, sizeBoard-1)
         
         #big_ship
         random_start = randint(0,sizeBoard-self.ship.max_positions[self.ship.big_ship_key])
         coordinates = chr(column_to_start+65)+","+str(random_start)
+        
         for i in range(0,6):
             self.ship.add_coodenates(self.ship.big_ship_key,coordinates.split(","))
             self.coordinates[int(coordinates.split(",")[1])][ord(coordinates.split(",")[0])-65] = 1
@@ -95,15 +96,14 @@ class Player:
                     count_empty_space = 0
                 
                 if count_empty_space == 4:
-                    print(f"encontre 4 posiciones vacias en {row} y {value}")
                     self.coordinates[row][value] = 1
                     self.ship.add_coodenates(self.ship.medium_ship_key,[chr(row+65), str(value)])
                     self.coordinates[row][value-1] = 1
-                    self.ship.add_coodenates(self.ship.medium_ship_key,[chr(row+65), str(value-1)])
+                    self.ship.add_coodenates(self.ship.medium_ship_key,[chr(row+65-1), str(value)])
                     self.coordinates[row][value-2] = 1
-                    self.ship.add_coodenates(self.ship.medium_ship_key,[chr(row+65), str(value-2)])
+                    self.ship.add_coodenates(self.ship.medium_ship_key,[chr(row+65-2), str(value)])
                     self.coordinates[row][value-3] = 1
-                    self.ship.add_coodenates(self.ship.medium_ship_key,[chr(row+65), str(value-3)])
+                    self.ship.add_coodenates(self.ship.medium_ship_key,[chr(row+65-3), str(value)])
                     
                     break
             if count_empty_space == 4:
@@ -120,11 +120,10 @@ class Player:
                     count_empty_space = 0
                 
                 if count_empty_space == 2:
-                    print(f"encontre 4 posiciones vacias en {row} y {value}")
                     self.coordinates[row][value] = 1
                     self.ship.add_coodenates(self.ship.small_ship_key,[chr(row+65), str(value)])
                     self.coordinates[row][value-1] = 1
-                    self.ship.add_coodenates(self.ship.small_ship_key,[chr(row+65), str(value-1)])
+                    self.ship.add_coodenates(self.ship.small_ship_key,[chr(row+65-1), str(value)])
                     break
             if count_empty_space == 2:
                 break

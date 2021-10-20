@@ -72,7 +72,7 @@ printMessage(HumanPlayer.coordinates,delimiter=None,matrix=1)
 while count_ships < 3:    
     Ship_to_be_selected = str(input("Cual Barco te gustaría utilizar:")).lower()
     printMessage("las coodenadas tienen que estar separadas con comas")
-    printMessage(""*27+"x y")
+    printMessage("x y")
     if Ship_to_be_selected in [ "a","b","c" ]:
         count_ships = count_ships + 1
         if ship_to_check.is_full(Ship_to_be_selected, HumanPlayer): #Checking if all positions had already been populated
@@ -88,6 +88,46 @@ printMessage(HumanPlayer.coordinates,delimiter=None,matrix=1)
 
 #Populating AI ship coordinates
 AiPlayer.automatic_generation(sizeBoard)
+
+bs={}
+ms={}
+ss={}
+
+hit = False
+
+while True:
+    
+    shoot=input("Elige donde quieres dirigir tu misil:  ")
+    if bool(re.search(rf"^[A-Za-z],[0-{sizeBoard}]$", shoot)):
+        if AiPlayer.check_positions_taken(shoot.split(","),AiPlayer.ship.big_ship):
+            print("Big ship hit!!")
+            Hit = True
+            AiPlayer.ship.big_ship[shoot.split(",")[0]].remove(shoot.split(",")[1])
+        elif AiPlayer.check_positions_taken(shoot.split(","),HumanPlayer.ship.medium_ship):
+            print("Medium Ship hit!!")
+            Hit = True
+            AiPlayer.ship.medium_ship.pop(shoot.split(",")[0],None)
+        elif AiPlayer.check_positions_taken(shoot.split(","),HumanPlayer.ship.small_ship):
+            print("Small Ship hit!!")
+            Hit = True
+            AiPlayer.ship.medium_ship.pop(shoot.split(",")[0],None)
+        else:
+            Hit = False
+            #que tire la computadora
+            
+        if not AiPlayer.ship.big_ship and not AiPlayer.ship.medium_ship and not AiPlayer.ship.small_ship:
+            printMessage("Ganaste!")
+            break
+        else:
+            printMessage("Aún quedan posiones que destruir!")
+    else:
+        print("Miss ,Try again.")
+    
+    
+    
+    
+
+
 
 
 
