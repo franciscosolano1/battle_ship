@@ -99,6 +99,7 @@ while True:
     
     shoot=input("Elige donde quieres dirigir tu misil:  ")
     if bool(re.search(rf"^[A-Za-z],[0-{sizeBoard}]$", shoot)):
+        
         if AiPlayer.check_positions_taken(shoot.split(","),AiPlayer.ship.big_ship):
             print("Big ship hit!!")
             Hit = True

@@ -71,7 +71,7 @@ class Player:
         column_to_start = randint(0, sizeBoard-1)
         
         #big_ship
-        random_start = randint(0,sizeBoard-self.ship.max_positions[self.ship.big_ship_key])
+        random_start = randint(0, sizeBoard - self.ship.max_positions[self.ship.big_ship_key])
         coordinates = chr(column_to_start+65)+","+str(random_start)
         
         for i in range(0,6):
