@@ -22,6 +22,7 @@ class Player:
         self.mapping_coordinates = {}
         self.valid_positions = {}
         self.ship = Ship()
+        self.coord_hist = []
     
     
     def set_coordiantes(self, ship, dictionary, coordinates = 0):
@@ -36,7 +37,6 @@ class Player:
         value_return = False
         for key, value in ship_dictionary.items():
             if key == ship_coordinates[0]:
-                
                 if isinstance(value, list):
                     if ship_coordinates[1] in value:
                         value_return = True
@@ -96,14 +96,22 @@ class Player:
                     count_empty_space = 0
                 
                 if count_empty_space == 4:
+                    print("row ", chr(row+65))
+                    print("value ", str(value))
+                    print("row ", chr(row+65-1))
+                    print("value ", str(value))
+                    print("row ", chr(row+65-2))
+                    print("value ", str(value))
+                    print("row ", chr(row+65-3))
+                    print("value ", str(value))
                     self.coordinates[row][value] = 1
-                    self.ship.add_coodenates(self.ship.medium_ship_key,[chr(row+65), str(value)])
+                    self.ship.add_coodenates(self.ship.medium_ship_key,[chr(value+65), str(row)])
                     self.coordinates[row][value-1] = 1
-                    self.ship.add_coodenates(self.ship.medium_ship_key,[chr(row+65-1), str(value)])
+                    self.ship.add_coodenates(self.ship.medium_ship_key,[chr(value+65-1), str(row)])
                     self.coordinates[row][value-2] = 1
-                    self.ship.add_coodenates(self.ship.medium_ship_key,[chr(row+65-2), str(value)])
+                    self.ship.add_coodenates(self.ship.medium_ship_key,[chr(value+65-2), str(row)])
                     self.coordinates[row][value-3] = 1
-                    self.ship.add_coodenates(self.ship.medium_ship_key,[chr(row+65-3), str(value)])
+                    self.ship.add_coodenates(self.ship.medium_ship_key,[chr(value+65-3), str(row)])
                     
                     break
             if count_empty_space == 4:
@@ -121,17 +129,53 @@ class Player:
                 
                 if count_empty_space == 2:
                     self.coordinates[row][value] = 1
-                    self.ship.add_coodenates(self.ship.small_ship_key,[chr(row+65), str(value)])
+                    self.ship.add_coodenates(self.ship.small_ship_key,[chr(value+65), str(row)])
                     self.coordinates[row][value-1] = 1
-                    self.ship.add_coodenates(self.ship.small_ship_key,[chr(row+65-1), str(value)])
+                    self.ship.add_coodenates(self.ship.small_ship_key,[chr(value+65-1), str(row)])
                     break
             if count_empty_space == 2:
                 break
                     
         
+    def attack(self, shoot, enemy ):
+        
+        Hit = False
+        
+        if enemy.check_positions_taken(shoot.split(","),enemy.ship.big_ship):
+            print("Big ship hit!!")
+            Hit = True
+
+            enemy.coord_hist[int(shoot.split(",")[1])][ord(shoot.split(",")[0])-65] = 'x'
+            enemy.ship.big_ship[shoot.split(",")[0]].remove(shoot.split(",")[1])
+            if len(enemy.ship.big_ship[shoot.split(",")[0]]) == 0:
+                enemy.ship.big_ship.pop(shoot.split(",")[0])
+        elif enemy.check_positions_taken(shoot.split(","),enemy.ship.medium_ship):
+            print("Medium Ship hit!!")
+            Hit = True
+            enemy.coord_hist[int(shoot.split(",")[1])][ord(shoot.split(",")[0])-65] = 'x'
+            enemy.ship.medium_ship.pop(shoot.split(",")[0],None)
+        elif enemy.check_positions_taken(shoot.split(","),enemy.ship.small_ship):
+            print("Small Ship hit!!")
+            Hit = True
+            enemy.coord_hist[int(shoot.split(",")[1])][ord(shoot.split(",")[0])-65] = 'x'
+            enemy.ship.small_ship.pop(shoot.split(",")[0],None)
+        else:
+            Hit = False
+            if enemy.coord_hist[int(shoot.split(",")[1])][ord(shoot.split(",")[0])-65] != 'x':
+                enemy.coord_hist[int(shoot.split(",")[1])][ord(shoot.split(",")[0])-65] = '-'
         
         
+        return Hit
         
+    def verify_if_wins(self, enemy):
+        
+        if not enemy.ship.big_ship and not enemy.ship.medium_ship and not enemy.ship.small_ship:
+            printMessage("Ganaste!")
+            return True
+        else:
+            printMessage("Aún quedan posiones que destruir!")
+        
+        return False
         
         
         
@@ -145,4 +189,3 @@ class Player:
     
     
     
-        
