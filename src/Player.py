@@ -65,6 +65,7 @@ class Player:
         else:
             if bool(re.search(rf"^[0-1][0-{sizeBoard - 10}],[0-1][0-{sizeBoard - 10}]$", ship_coordinates)):
                 pass
+
     
     def automatic_generation(self, sizeBoard):
         vertial_or_horizontal = 0 # randint(0, 1) #0 -  VERTICAL, 1 - HORIZONTAL
@@ -177,15 +178,4 @@ class Player:
         
         return False
         
-        
-        
-        
-        
-        
-        
-        
-    
-    
-    
-    
-    
+
