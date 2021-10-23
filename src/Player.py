@@ -97,14 +97,6 @@ class Player:
                     count_empty_space = 0
                 
                 if count_empty_space == 4:
-                    print("row ", chr(row+65))
-                    print("value ", str(value))
-                    print("row ", chr(row+65-1))
-                    print("value ", str(value))
-                    print("row ", chr(row+65-2))
-                    print("value ", str(value))
-                    print("row ", chr(row+65-3))
-                    print("value ", str(value))
                     self.coordinates[row][value] = 1
                     self.ship.add_coodenates(self.ship.medium_ship_key,[chr(value+65), str(row)])
                     self.coordinates[row][value-1] = 1

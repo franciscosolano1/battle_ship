@@ -21,7 +21,7 @@ class Ship:
         #agregan coordenadas alos diccionarios
         def add_process(self, ship, ship_coordinates,boatSize):
             if boatSize.get(ship_coordinates[0].upper(),0) == 0: # no existe
-                boatSize[ship_coordinates[0].upper()] = ship_coordinates[1]
+                boatSize[ship_coordinates[0].upper()] = ship_coordinates[1] 
             else:
                 list_new = list(boatSize.get(ship_coordinates[0].upper()))
                 list_new.append(ship_coordinates[1])
