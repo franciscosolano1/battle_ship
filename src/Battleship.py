@@ -61,6 +61,7 @@ count_ships = 0
 for i in range(sizeBoard):
    HumanPlayer.coordinates.append([0 for j in range(sizeBoard)]) # Creating our board
    AiPlayer.coordinates.append([0 for j in range(sizeBoard)]) # Creating Ai board
+
    HumanPlayer.coord_hist.append(['0' for j in range(sizeBoard)]) # Creating attack history
    AiPlayer.coord_hist.append(['0' for j in range(sizeBoard)]) # Creating attack history
 
@@ -75,7 +76,9 @@ printMessage(HumanPlayer.coordinates,delimiter=None,matrix=1)
 while count_ships < 3:    
     Ship_to_be_selected = str(input("Cual Barco te gustaría utilizar:")).lower()
     printMessage("las coodenadas tienen que estar separadas con comas")
+
     printMessage("x y")
+
     if Ship_to_be_selected in [ "a","b","c" ]:
         count_ships = count_ships + 1
         if ship_to_check.is_full(Ship_to_be_selected, HumanPlayer): #Checking if all positions had already been populated
@@ -85,7 +88,18 @@ while count_ships < 3:
                 HumanPlayer.input_coordinates(Ship_to_be_selected, sizeBoard)
 
 
+
 #automatic random generation of coordinates
+AiPlayer.automatic_generation(sizeBoard)
+
+
+
+#showing new board
+printMessage("Tu tablero quedo de la siguiente manera:")
+printMessage(HumanPlayer.coordinates,delimiter=None,matrix=1)
+            
+
+#Populating AI ship coordinates
 AiPlayer.automatic_generation(sizeBoard)
 
 
