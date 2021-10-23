@@ -76,7 +76,7 @@ bs={}
 ms={}
 ss={}
 while True:
-    shoot=ingit put("Elige donde quieres dirigir tu misil:  ")
+    shoot=input("Elige donde quieres dirigir tu misil:  ")
     if bool(re.search(rf"^[A-Za-z],[0-{sizeBoard}]$", shoot)):
         print("entre")
     if HumanPlayer.check_positions_taken(shoot.split(","),HumanPlayer.ship.big_ship):
