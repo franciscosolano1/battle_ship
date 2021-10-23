@@ -130,8 +130,5 @@ while True:
             printMessage("elijo: ", column_+","+str(row_) )
             hit = AiPlayer.attack(column_+","+str(row_), HumanPlayer)   
     else:
-
-        printMessage("Miss ,Try again.")
-
-        
-
+        printMessage("Miss ,Try again.") 
+    
