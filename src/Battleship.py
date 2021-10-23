@@ -2,11 +2,12 @@
 
 import sys
 import re
+
 sys.path.append(".")
 from random import randint
 from Player import Player
 from Ship import Ship
-from PrintFunctions import printMessage
+from PrintFunctions import printMessage, clear
 
 
 ###################### Validación del nombre ######################
@@ -46,7 +47,7 @@ printMessage("= Reglas","= Puedes agregar los siguientes barcos:"
              ,"= \t \t b. 1 Barco Mediano (ocupa 4 posiciones)"
              ,"= \t \t c. 3 Barcos Pequeños (Ocupa 2 posiciones)"
              ,"="
-             ,"= Deberas seleccionar cual barco quieres crear y en seguida que posiciones ira, solo se permite de manera Horizontal o vertical, no importa el orden en que los elijas "
+             ,"= Deberas seleccionar cual barco quieres crear y en seguida en que posiciones irá, solo se permite de manera Horizontal o vertical, no importa el orden en que los elijas "
              ,"="
              ,delimiter = "="*120
              )
@@ -61,6 +62,9 @@ for i in range(sizeBoard):
    HumanPlayer.coordinates.append([0 for j in range(sizeBoard)]) # Creating our board
    AiPlayer.coordinates.append([0 for j in range(sizeBoard)]) # Creating Ai board
 
+   HumanPlayer.coord_hist.append(['0' for j in range(sizeBoard)]) # Creating attack history
+   AiPlayer.coord_hist.append(['0' for j in range(sizeBoard)]) # Creating attack history
+
 
 #Populating Human ship coordinates
 
@@ -72,7 +76,9 @@ printMessage(HumanPlayer.coordinates,delimiter=None,matrix=1)
 while count_ships < 3:    
     Ship_to_be_selected = str(input("Cual Barco te gustaría utilizar:")).lower()
     printMessage("las coodenadas tienen que estar separadas con comas")
-    printMessage(""*27+"x y")
+
+    printMessage("x y")
+
     if Ship_to_be_selected in [ "a","b","c" ]:
         count_ships = count_ships + 1
         if ship_to_check.is_full(Ship_to_be_selected, HumanPlayer): #Checking if all positions had already been populated
@@ -80,6 +86,13 @@ while count_ships < 3:
         else:
             while not ship_to_check.is_full(Ship_to_be_selected, HumanPlayer):
                 HumanPlayer.input_coordinates(Ship_to_be_selected, sizeBoard)
+
+
+
+#automatic random generation of coordinates
+AiPlayer.automatic_generation(sizeBoard)
+
+
 
 #showing new board
 printMessage("Tu tablero quedo de la siguiente manera:")
@@ -89,25 +102,36 @@ printMessage(HumanPlayer.coordinates,delimiter=None,matrix=1)
 #Populating AI ship coordinates
 AiPlayer.automatic_generation(sizeBoard)
 
-bs={}
-ms={}
-ss={}
+
 while True:
+    
+    hit = False
+    win = False
     shoot=input("Elige donde quieres dirigir tu misil:  ")
     if bool(re.search(rf"^[A-Za-z],[0-{sizeBoard}]$", shoot)):
-        print("entre")
-    if HumanPlayer.check_positions_taken(shoot.split(","),HumanPlayer.ship.big_ship):
-        print("Big ship hit!!")
-        (shoot.split(","),)
-        HumanPlayer.ship.big_ship.popitem()
-        if HumanPlayer.ship.big_ship=={}:
-            print("Big Ship sunk!")
-        print(bs)
-    elif HumanPlayer.check_positions_taken(shoot.split(","),HumanPlayer.ship.medium_ship):
-        print("Medium Ship hit!!")
-    elif HumanPlayer.check_positions_taken(shoot.split(","),HumanPlayer.ship.small_ship):
-        print("Small Ship hit!!")
+        
+        hit = HumanPlayer.attack(shoot, AiPlayer)
+        
+        if hit:
+            
+            clear() #clean console
+            
+            printMessage("Tiros:")
+            printMessage(", ".join([" "+chr(i)+" " for i in range(65,65+sizeBoard)])) #Printing our board
+            printMessage(AiPlayer.coord_hist,delimiter=None,matrix=1)
+            win = HumanPlayer.verify_if_wins(AiPlayer)
+            if win:
+                break
+        else:
+            #creating random shoot
+            column_ = chr(randint(0, sizeBoard-1)+65)
+            row_ = randint(0, sizeBoard-1)
+            printMessage("Computadora ataca!")
+            printMessage("elijo: ", column_+","+str(row_) )
+            hit = AiPlayer.attack(column_+","+str(row_), HumanPlayer)   
     else:
-        print("Miss ,Try again.")
 
+        printMessage("Miss ,Try again.")
+
+        
 
