@@ -3,6 +3,7 @@
 import sys
 import re
 sys.path.append(".")
+from random import randint
 from Player import Player
 from Ship import Ship
 from PrintFunctions import printMessage
@@ -52,11 +53,16 @@ printMessage("= Reglas","= Puedes agregar los siguientes barcos:"
 
 #initializing object HumanPlayer and ship
 HumanPlayer = Player(player_name,[],sizeBoard) 
+AiPlayer = Player("Computadora",[],sizeBoard) 
 ship_to_check = Ship()
 count_ships = 0
 # filling matriz with 0 values in each position
 for i in range(sizeBoard):
    HumanPlayer.coordinates.append([0 for j in range(sizeBoard)]) # Creating our board
+   AiPlayer.coordinates.append([0 for j in range(sizeBoard)]) # Creating Ai board
+
+
+#Populating Human ship coordinates
 
 printMessage("Cada valor de 0 es una posicion a la que puedes asignar una parte de cada barco")
 printMessage("Tu tablero:")
@@ -65,6 +71,8 @@ printMessage(HumanPlayer.coordinates,delimiter=None,matrix=1)
 
 while count_ships < 3:    
     Ship_to_be_selected = str(input("Cual Barco te gustaría utilizar:")).lower()
+    printMessage("las coodenadas tienen que estar separadas con comas")
+    printMessage(""*27+"x y")
     if Ship_to_be_selected in [ "a","b","c" ]:
         count_ships = count_ships + 1
         if ship_to_check.is_full(Ship_to_be_selected, HumanPlayer): #Checking if all positions had already been populated
@@ -72,6 +80,15 @@ while count_ships < 3:
         else:
             while not ship_to_check.is_full(Ship_to_be_selected, HumanPlayer):
                 HumanPlayer.input_coordinates(Ship_to_be_selected, sizeBoard)
+
+#showing new board
+printMessage("Tu tablero quedo de la siguiente manera:")
+printMessage(HumanPlayer.coordinates,delimiter=None,matrix=1)
+            
+
+#Populating AI ship coordinates
+AiPlayer.automatic_generation(sizeBoard)
+
 bs={}
 ms={}
 ss={}
@@ -92,9 +109,5 @@ while True:
         print("Small Ship hit!!")
     else:
         print("Miss ,Try again.")
-
-
-    
-
 
 
